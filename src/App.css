@@ -6,6 +6,16 @@ body {
   color: light
 }
 
+.chat::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(226, 224, 224, 0.8);
+}
+
+.chat::-webkit-scrollbar-thumb {
+  background-color: rgba(160, 160, 160, 0.8);
+  border-radius: 10px;
+}
+
 .loader {
   color: #333;
   font-size: 45px;

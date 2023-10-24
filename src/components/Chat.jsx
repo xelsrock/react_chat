@@ -4,7 +4,8 @@ import firebase from 'firebase/compat/app';
 
 import { Context } from '..';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Avatar, Button, Container, Grid, TextField } from '@mui/material';
+import { Button, Container, Grid, TextField } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import Loader from './Loader';
 import Message from './Message';
 
@@ -50,8 +51,10 @@ const Chat = () => {
       <Grid
         container
         style={{ height: window.innerHeight - 100, marginTop: '20px' }}
-        justifyContent="center">
+        justifyContent='center'
+        alignItems='flex-start'>
         <div
+          className="chat"
           style={{
             width: '80%',
             height: '60vh',
@@ -70,19 +73,23 @@ const Chat = () => {
             />
           ))}
         </div>
-        <Grid container flexDirection="column" alignItems="flex-end" style={{ width: '80%' }}>
+        <Grid container flexDirection="row" alignItems="center" style={{ width: '80%' }} full>
           <TextField
             value={value}
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={(event) => hanbleEnter(event)}
-            fullWidth
             maxRows={2}
             autoComplete="off"
             variant="outlined"
+            placeholder="Написать сообщение..."
+            style={{ width: '50%' }}
           />
-          <Button onClick={sendMessage} variant="outlined" style={{ marginTop: '20px' }}>
-            Отправить
-          </Button>
+          <Button
+            onClick={sendMessage}
+            style={{ marginLeft: '20px' }}
+            variant="contained"
+            size="large"
+            endIcon={<SendIcon />}></Button>
         </Grid>
       </Grid>
     </Container>
