@@ -17,16 +17,16 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar color="secondary" position="static">
+    <AppBar color='secondary' position="static">
       <Toolbar>
         <Grid container justifyContent="flex-end">
           {user ? (
-            <Button onClick={signOut} variant="outlined">
+            <Button onClick={signOut} variant="contained">
               Выйти
             </Button>
           ) : (
             <NavLink to={LOGIN_ROUTE}>
-              <Button variant="outlined">Логин</Button>
+              <Button variant='contained'>Логин</Button>
             </NavLink>
           )}
         </Grid>

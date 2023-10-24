@@ -20,12 +20,12 @@ const Login = () => {
         alignItems='center'
         justifyContent='center'>
         <Grid
-          style={{ width: 400, backgroundColor: 'lightgray' }}
+          style={{ width: 400, backgroundColor: 'lightblue' }}
           container
           alignItems='center'
           flexDirection='column'>
           <Box p={5}>
-            <Button onClick={login} variant='outlined'>Войти с помощью Google</Button>
+            <Button onClick={login} variant='outlined' size='large'>Войти с помощью Google</Button>
           </Box>
         </Grid>
       </Grid>
