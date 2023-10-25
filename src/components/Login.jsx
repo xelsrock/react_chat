@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import firebase from 'firebase/compat/app';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Box, Button, Container, Grid } from '@mui/material';
+import { Context } from '..';
 
 const Login = () => {
+  const { auth } = useContext(Context);
+
   const login = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -17,10 +21,8 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
 
-        alert(`Ошибка ${errorCode}: ${errorMessage}`);
+        console.error(`Ошибка ${errorCode}: ${errorMessage}`);
       });
-
-    
   };
 
   return (
@@ -35,7 +37,9 @@ const Login = () => {
           container
           alignItems="center"
           flexDirection="column">
-            <div style={{marginTop: '20px', fontSize: '22px', color: 'gray'}}>Присоединяйся к онлайн чату</div>
+          <div style={{ marginTop: '20px', fontSize: '22px', color: 'gray' }}>
+            Присоединяйся к онлайн чату
+          </div>
 
           <Box p={5}>
             <Button onClick={login} variant="outlined" size="large">

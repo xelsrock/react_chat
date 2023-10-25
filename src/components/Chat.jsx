@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import firebase from 'firebase/compat/app';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Context } from '..';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -17,8 +18,10 @@ const Chat = () => {
   const [messages, loading] = useCollectionData(
     firestore.collection('messages').orderBy('createdAt'),
   );
+  const [authProfile] = useCollectionData(firestore.collection('authProfile'));
 
   const [value, setValue] = useState('');
+  const [profileId, setProfileId] = useState('');
 
   const sendMessage = async () => {
     firestore.collection('messages').add({
@@ -39,6 +42,39 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+
+        firestore
+          .collection('authProfile')
+          .doc(uid)
+          .set({
+            uid,
+            displayName: user.displayName,
+          })
+          .then(() => {
+            setProfileId(uid);
+          })
+          .catch((error) => {
+            console.error('Error writing document: ', error);
+          });
+      } else {
+        firestore
+          .collection('authProfile')
+          .doc(profileId)
+          .delete()
+          .then(() => {
+            setProfileId('');
+          })
+          .catch((error) => {
+            console.error('Error removing document: ', error);
+          });
+      }
+    });
+  }, [profileId]);
+
+  useEffect(() => {
     anchorRef.current?.scrollIntoView({ smooth: 'scroll-behavior' });
   }, [messages]);
 
@@ -51,8 +87,16 @@ const Chat = () => {
       <Grid
         container
         style={{ height: window.innerHeight - 100, marginTop: '20px' }}
-        justifyContent='center'
-        alignItems='flex-start'>
+        justifyContent="center"
+        alignItems="flex-start">
+        <Grid container justifyContent='center' flexDirection='column'
+        alignItems='center'>
+          <div style={{fontSize: '22px', marginBottom: '10px'}}>Подключенные пользователи:</div>
+          {authProfile.map((profile, index) => (
+            <div style={{marginBottom: '5px'}} key={index}>{profile.displayName || profile.uid}</div>
+          ))}
+        </Grid>
+
         <div
           className="chat"
           style={{
@@ -73,7 +117,12 @@ const Chat = () => {
             />
           ))}
         </div>
-        <Grid container flexDirection="row" alignItems="center" style={{ width: '80%' }} full>
+        <Grid
+          container
+          flexDirection="row"
+          alignItems="center"
+          style={{ width: '80%' }}
+          full="true">
           <TextField
             value={value}
             onChange={(event) => setValue(event.target.value)}
