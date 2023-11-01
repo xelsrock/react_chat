@@ -24,15 +24,17 @@ const Chat = () => {
   const [profileId, setProfileId] = useState('');
 
   const sendMessage = async () => {
-    firestore.collection('messages').add({
-      uid: user.uid,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      text: value,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    if (value.trim().length !== 0) {
+      firestore.collection('messages').add({
+        uid: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        text: value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
 
-    setValue('');
+      setValue('');
+    }
   };
 
   const hanbleEnter = (event) => {
@@ -89,14 +91,6 @@ const Chat = () => {
         style={{ height: window.innerHeight - 100, marginTop: '20px' }}
         justifyContent="center"
         alignItems="flex-start">
-        <Grid container justifyContent='center' flexDirection='column'
-        alignItems='center'>
-          <div style={{fontSize: '22px', marginBottom: '10px'}}>Подключенные пользователи:</div>
-          {authProfile.map((profile, index) => (
-            <div style={{marginBottom: '5px'}} key={index}>{profile.displayName || profile.uid}</div>
-          ))}
-        </Grid>
-
         <div
           className="chat"
           style={{
@@ -120,6 +114,7 @@ const Chat = () => {
         <Grid
           container
           flexDirection="row"
+          justifyContent="space-between"
           alignItems="center"
           style={{ width: '80%' }}
           full="true">
@@ -131,14 +126,22 @@ const Chat = () => {
             autoComplete="off"
             variant="outlined"
             placeholder="Написать сообщение..."
-            style={{ width: '50%' }}
+            style={{ width: '70%' }}
           />
           <Button
             onClick={sendMessage}
-            style={{ marginLeft: '20px' }}
             variant="contained"
             size="large"
             endIcon={<SendIcon />}></Button>
+        </Grid>
+
+        <Grid container justifyContent="center" flexDirection="column" alignItems="center">
+          <div style={{ fontSize: '22px', marginBottom: '10px' }}>Подключенные пользователи:</div>
+          {authProfile.map((profile, index) => (
+            <div style={{ marginBottom: '5px' }} key={index}>
+              {profile.displayName || profile.uid}
+            </div>
+          ))}
         </Grid>
       </Grid>
     </Container>
