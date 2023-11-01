@@ -32,9 +32,8 @@ const Chat = () => {
         text: value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
-
-      setValue('');
     }
+    setValue('');
   };
 
   const hanbleEnter = (event) => {
