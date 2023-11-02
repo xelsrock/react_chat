@@ -97,7 +97,8 @@ const Chat = () => {
             height: '60vh',
             border: '1px solid gray',
             overflowY: 'auto',
-            backgroundColor: 'rgba(246, 246, 246, 0.8)',
+            backgroundColor: '#0e1621',
+            borderRadius: '5px'
           }}>
           {messages.map((message, index) => (
             <Message

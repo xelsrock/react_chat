@@ -8,11 +8,12 @@ body {
 
 .chat::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(226, 224, 224, 0.8);
+  background-color: #2e343c;
+  border-radius: 10px;
 }
 
 .chat::-webkit-scrollbar-thumb {
-  background-color: rgba(160, 160, 160, 0.8);
+  background-color: #565b60;
   border-radius: 10px;
 }
 

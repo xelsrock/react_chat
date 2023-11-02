@@ -1,13 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import firebase from 'firebase/compat/app';
-import { onAuthStateChanged } from 'firebase/auth';
 
 import { Box, Button, Container, Grid } from '@mui/material';
-import { Context } from '..';
 
 const Login = () => {
-  const { auth } = useContext(Context);
-
   const login = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -16,6 +12,7 @@ const Login = () => {
       .signInWithPopup(provider)
       .then((result) => {
         const user = result.user;
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
